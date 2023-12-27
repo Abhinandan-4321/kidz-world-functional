@@ -120,10 +120,11 @@ function updatePrice() {
   finalCents = totalPriceInCents % 100;
 }
 
+var whatsappLink = "https://api.whatsapp.com/send?phone=919882716924&text=Order%20details";
 
 cartButton.onclick = () => {
   updatePrice();
-
+  updateWhatsappLink(); // This function now resets the whatsappLink variable
 
   for (let index = 0; index < items.length; index++) {
     if (items[index].quantity != 0) {
@@ -140,3 +141,16 @@ cartButton.onclick = () => {
     "The total amount is " + finalDollars + "$ and " + finalCents + " cents"
   );
 };
+
+
+function updateWhatsappLink() {
+  whatsappLink = "https://api.whatsapp.com/send?phone=919882716924&text=Order%20details";
+
+  for (let i = 0; i < items.length; i++) {
+    if (items[i].quantity !== 0) {
+      whatsappLink += "Item%20name:%20" + encodeURIComponent(items[i].title) + "%0A" + "Quantity%20purchased:%20" + encodeURIComponent(items[i].quantity) + "%0A";
+    }
+  }
+
+  window.open(whatsappLink, '_blank');
+}
